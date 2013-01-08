@@ -125,6 +125,29 @@ class DynectRest
     word
   end
 
+  def all(fqdn=nil)
+    path = "AllRecord/#{@zone}"
+    path += "/#{fqdn}" if fqdn
+
+    records = []
+    paths = get(path)
+
+    paths.each do |p|
+      p= p.gsub(/\/REST\//, '')
+
+      raw_rr = get(p)
+      records << DynectRest::Resource.new(self,
+                                          raw_rr["record_type"],
+                                          raw_rr["zone"],
+                                          raw_rr["fqdn"],
+                                          raw_rr["record_id"],
+                                          raw_rr["ttl"],
+                                          raw_rr["rdata"])
+    end
+
+    return records
+  end
+
   ##
   # Resource Records
   ##
