@@ -126,9 +126,12 @@ class DynectRest
 
     def to_json
       {
-        "rdata"     => @rdata,
+        "data"      => @rdata,
         "ttl"       => @ttl,
-        "record_id" => @record_id
+        "dyn_id"    => @record_id,
+        "zone"      => @zone,
+        "type"      => @record_type,
+        "fqdn"      => @fqdn
       }.to_json
     end
 
