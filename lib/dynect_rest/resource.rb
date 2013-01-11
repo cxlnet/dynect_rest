@@ -124,14 +124,11 @@ class DynectRest
       @dynect.delete(url)
     end
 
+
     def to_json
       {
-        "data"      => @rdata,
+        "rdata"      => @rdata,
         "ttl"       => @ttl,
-        "dyn_id"    => @record_id,
-        "zone"      => @zone,
-        "type"      => @record_type,
-        "fqdn"      => @fqdn
       }.to_json
     end
 
