@@ -23,7 +23,7 @@ class DynectRest
 
     def initialize(dynect, record_type, zone, fqdn=nil, record_id=nil, ttl=nil, rdata={})
       @dynect = dynect
-      @record_type = record_type
+      @record_type = record_type.clone
       @fqdn = fqdn
       @record_id = record_id
       @ttl = ttl
