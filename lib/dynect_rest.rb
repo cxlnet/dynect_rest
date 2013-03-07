@@ -205,6 +205,7 @@ class DynectRest
 
   # Handles making Dynect API requests and formatting the responses properly.
   def api_request(&block)
+    puts "api_request with block #{block.hash}"
     response_body = begin
       response = block.call
       response.body
@@ -218,17 +219,13 @@ class DynectRest
         if (r.start_with?('Job'))
           # it's a job - we should wait for it and retry eventually
           try = 1
-          while try < 10
+          while try <= 35
             res = get(r)
             break if res == {}
+            sleep 0.3
             try += 1
           end
-          if res == {}
-            api_request(&block)
-          else
-            puts "Dyn redirected us to #{res} and we got tired of waiting. Last response is #{res.inspect}" if @verbose
-            res.inspect
-          end
+          return res
         else
           get(r)
         end
