@@ -213,7 +213,25 @@ class DynectRest
         puts "I have #{e.inspect} with #{e.http_code}"
       end
       if e.http_code == 307
-        get(e.response)
+        puts "Dyn redirected us to #{e.response}" if @verbose
+        r = e.response.gsub(/^\/?(REST)?\/?/, '')
+        if (r.start_with?('Job'))
+          # it's a job - we should wait for it and retry eventually
+          try = 1
+          while try < 10
+            res = get(r)
+            break if res == {}
+            try += 1
+          end
+          if res == {}
+            api_request(&block)
+          else
+            puts "Dyn redirected us to #{res} and we got tired of waiting. Last response is #{res.inspect}" if @verbose
+            res.inspect
+          end
+        else
+          get(r)
+        end
       end
       e.response
     end
