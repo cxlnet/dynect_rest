@@ -225,9 +225,9 @@ class DynectRest
               sleep 0.5
             end
           end
-          res
+          return res
         else
-          get(r)
+          return get(r)
         end
       end
       e.response
