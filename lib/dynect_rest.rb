@@ -205,7 +205,6 @@ class DynectRest
 
   # Handles making Dynect API requests and formatting the responses properly.
   def api_request(&block)
-    puts "api_request with block #{block.hash}"
     response_body = begin
       response = block.call
       response.body
