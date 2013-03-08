@@ -216,15 +216,15 @@ class DynectRest
         puts "Dyn redirected us to #{e.response}" if @verbose
         r = e.response.gsub(/^\/?(REST)?\/?/, '')
         if (r.start_with?('Job'))
-          # it's a job - we should wait for it and retry eventually
-          try = 1
-          while try <= 35
-            res = get(r)
-            break if res == {}
-            sleep 0.3
-            try += 1
+          # it's a job - we should wait for it to finish
+          while 1
+            begin
+              res = get(r)
+            rescue
+              sleep 0.5
+            end
           end
-          return res
+          res
         else
           get(r)
         end
