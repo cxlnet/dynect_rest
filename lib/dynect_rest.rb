@@ -220,6 +220,7 @@ class DynectRest
           while 1
             begin
               res = get(r)
+              break
             rescue
               sleep 0.5
             end
